@@ -1,4 +1,4 @@
-Tasker
+<h1>Tasker</h1>
 Tasker is a simple to-do list web application that allows users to manage their tasks. It provides the ability to add, update, toggle, and remove tasks, with tasks stored in a JSON file on the server.
 
 Features

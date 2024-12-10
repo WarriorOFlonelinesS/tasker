@@ -1,111 +1,83 @@
 <h1>Tasker</h1>
-Tasker is a simple to-do list web application that allows users to manage their tasks. It provides the ability to add, update, toggle, and remove tasks, with tasks stored in a JSON file on the server.
+    <p>Tasker is a simple to-do list web application that allows users to manage their tasks. It supports adding, updating, toggling, and removing tasks, with persistent storage using a server-side JSON file.</p>
 
-Features
-Add new tasks with a name.
-Update task names.
-Toggle task completion status.
-Delete tasks.
-Persistent task storage using a tasks.txt file on the server.
-Project Structure
- 
-  
-project/
-├── index.html      # Main HTML file
-├── style.css       # (Optional) Styles for the app
-├── script.js       # Client-side JavaScript
-├── handler.php     # Server-side task handler
-└── tasks.txt       # Persistent task storage (auto-generated)
-How It Works
-Frontend
-HTML
-The app provides a simple interface where users can:
+   <h2>Features</h2>
+    <ul>
+        <li>Add new tasks with a name.</li>
+        <li>Update task names.</li>
+        <li>Toggle task completion status.</li>
+        <li>Delete tasks.</li>
+        <li>Persistent storage using a <code>tasks.txt</code> file.</li>
+    </ul>
 
-Add a task via a form.
-View tasks as a list.
-Interact with each task (update, toggle status, delete).
-JavaScript
-The frontend uses JavaScript to:
+   <h2>Project Structure</h2>
+    <pre>
+    project/
+    ├── index.html      # Main HTML file
+    ├── style.css       # (Optional) Styles for the app
+    ├── script.js       # Client-side JavaScript
+    ├── handler.php     # Server-side task handler
+    └── tasks.txt       # Persistent task storage (auto-generated)
+    </pre>
 
-Fetch tasks from the server using fetch.
-Dynamically update the DOM when tasks are modified.
-Send updates (add, update, toggle, delete) to the server.
-Backend
-PHP Handler (handler.php)
+   <h3>Key Functionality</h3>
+    <p>The app provides a user interface for:</p>
+    <ul>
+        <li>Adding tasks via a form.</li>
+        <li>Viewing tasks as a list.</li>
+        <li>Interacting with tasks (update, toggle, delete).</li>
+    </ul>
 
-GET Requests: Returns the list of tasks stored in tasks.txt.
-POST Requests: Updates the tasks.txt file with new tasks from the client.
-File Storage (tasks.txt)
+   <h2>Code Overview</h2>
+    <h3>JavaScript</h3>
+    <p>The frontend uses JavaScript to fetch tasks, dynamically update the DOM, and send updates to the server:</p>
+    <ul>
+        <li><strong>apiRequest(url, method, body):</strong> Sends requests to the server.</li>
+        <li><strong>getTasks():</strong> Fetches tasks from the server.</li>
+        <li><strong>saveTasks():</strong> Saves tasks to the server.</li>
+        <li><strong>addTask(task):</strong> Adds a new task.</li>
+        <li><strong>updateTaskName(id, name):</strong> Updates a task name.</li>
+        <li><strong>toggleTaskStatus(id):</strong> Toggles a task's completion status.</li>
+        <li><strong>removeTask(id):</strong> Deletes a task.</li>
+        <li><strong>renderTasks():</strong> Updates the task list in the DOM.</li>
+    </ul>
 
-Stores tasks in JSON format for persistent storage.
-Installation and Setup
-Clone the repository or download the files.
-Ensure you have a PHP server set up (e.g., XAMPP).
-Place the project in your web server's root directory (e.g., htdocs for XAMPP).
-Start your PHP server.
-Open index.html in your browser.
-Usage
-Add a Task
-Enter a task name in the input field.
-Click the "Add" button or press Enter.
-Update a Task Name
-Click on the task name.
-Enter a new name in the prompt.
-Toggle Task Status
-Click the checkbox next to a task.
-Delete a Task
-Click the "Delete" button next to a task.
-Code Overview
-JavaScript (script.js)
-Key Functions:
-apiRequest(url, method, body): Sends API requests to the server.
-getTasks(): Fetches tasks from the server.
-saveTasks(): Saves tasks to the server.
-addTask(task): Adds a new task.
-updateTaskName(id, name): Updates the name of a task.
-toggleTaskStatus(id): Toggles the completion status of a task.
-removeTask(id): Removes a task.
-renderTasks(): Updates the DOM with the current tasks.
-Initialization:
-On page load, tasks are fetched from the server and displayed.
-PHP (handler.php)
-Key Logic:
-POST Requests:
-Accepts JSON payload with a tasks array.
-Validates the input and saves it to tasks.txt.
-Returns a success or error message.
-GET Requests:
-Reads tasks from tasks.txt.
-Returns the tasks as JSON or an empty array if the file doesn’t exist.
-Example Task Workflow
-Add Task:
-Input:
+   <h3>PHP (handler.php)</h3>
+    <p>Handles server-side logic:</p>
+    <ul>
+        <li><strong>GET Requests:</strong> Returns tasks stored in <code>tasks.txt</code>.</li>
+        <li><strong>POST Requests:</strong> Updates tasks in <code>tasks.txt</code> based on client input.</li>
+    </ul>
 
-json
-  
-{ "id": "abc123", "name": "Buy milk", "status": false }
-Server Response:
+   <h3>File Storage</h3>
+    <p>Tasks are stored persistently in <code>tasks.txt</code> in JSON format.</p>
 
-json
-  
-{ "status": "success", "tasks": [...] }
-Update Task Name:
+   <h2>Installation</h2>
+    <ol>
+        <li>Clone the repository or download the files.</li>
+        <li>Set up a PHP server (e.g., XAMPP).</li>
+        <li>Place the project in the server's root directory (e.g., <code>htdocs</code> for XAMPP).</li>
+        <li>Start the server and open <code>index.html</code> in a browser.</li>
+    </ol>
 
-Find the task by id.
-Update the name.
-Toggle Task Status:
+   <h2>Usage</h2>
+    <ul>
+        <li><strong>Add a Task:</strong> Enter a task name and click "Add" or press Enter.</li>
+        <li><strong>Update Task Name:</strong> Click on a task name and provide a new name.</li>
+        <li><strong>Toggle Task Status:</strong> Click the checkbox next to a task.</li>
+        <li><strong>Delete a Task:</strong> Click "Delete" next to a task.</li>
+    </ul>
 
-Find the task by id.
-Flip the status value.
-Delete Task:
+   <h2>Notes</h2>
+    <p>Ensure the server has write permissions for the directory containing <code>tasks.txt</code>. This app is for demonstration purposes and may require enhancements for production use.</p>
 
-Remove the task by id from the list.
-Notes
-Ensure the PHP server has write permissions for the directory where tasks.txt is located.
-This app is designed for demonstration purposes and may require enhancements for production use.
-Future Improvements
-Add authentication to prevent unauthorized access.
-Validate input to avoid invalid task data.
-Implement a database for more scalable storage.
-Improve the UI/UX with additional styling and animations.
-Enjoy managing your tasks with Tasker! 🎯
+   <h2>Future Improvements</h2>
+    <ul>
+        <li>Authentication for security.</li>
+        <li>Input validation to prevent invalid task data.</li>
+        <li>Database integration for scalability.</li>
+        <li>Enhanced UI/UX with better styling and animations.</li>
+    </ul>
+
+   <p>Enjoy managing your tasks with Tasker! 🎯</p>
+

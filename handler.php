@@ -1,6 +1,6 @@
 <?php
 require 'connect.php';
-$pdo = connect('127.127.126.49', 'tasks', 'postgres', '');
+$pdo = connect('', 'tasks', '', '');
 
 // header('Content-Type: application/json');
 

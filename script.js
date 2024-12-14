@@ -32,6 +32,7 @@ async function saveTasks() {
   if (response?.status !== 'success') {
     console.error('Failed to save tasks:', response?.message || 'Unknown error');
   }
+
 }
 
 function addTask(task) {
@@ -55,6 +56,7 @@ function toggleTaskStatus(id) {
     saveTasks();
     renderTasks();
   }
+
 }
 
 function removeTask(id) {

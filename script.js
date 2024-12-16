@@ -39,6 +39,7 @@ function addTask(task) {
   tasksCache.push(task);
   saveTasks();
   renderTasks();
+  
 }
 function updateTaskName(id, name) {
   const task = tasksCache.find((task) => task.id === id);
@@ -119,6 +120,7 @@ function onAddTask(event) {
     });
     taskInput.value = '';
   }
+
 }
 
 async function init() {
@@ -128,6 +130,5 @@ async function init() {
   const taskForm = document.getElementById('add-task-form');
   taskForm.addEventListener('submit', onAddTask);
 }
-
 
 window.addEventListener('load', init);

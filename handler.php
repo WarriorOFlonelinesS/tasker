@@ -18,11 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 $name = $task['name'];
-                $status = 'false';
 
+                $status = isset($task['status']) && $task['status'] !== '' ? filter_var($task['status'], FILTER_VALIDATE_BOOLEAN) : false;
 
+                echo $status;
                 // Insert into database
-                $query = $pdo->prepare("INSERT INTO public.tasks (name, status, date_creation) VALUES (?, ?, NOW())");
+                $query = $pdo->prepare("INSERT INTO user_tasks (name, status, date_creation) VALUES (?, ?, NOW())");
                 $query->execute([$name, $status]);
 
                 $addedTasks[] = $pdo->lastInsertId();
@@ -45,7 +46,7 @@ else {
     try {
     
     // Query to fetch all tables in the public schema
-        $query = "SELECT * FROM  public.tasks";
+        $query = "SELECT * FROM  user_tasks";
     
         // Execute the query
         $stmt = $pdo->query($query);
@@ -54,6 +55,7 @@ else {
         echo "Tables in the database:<br>";
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             echo var_dump($row);
+            echo $row['id'] . ',' . $row['name'] . ',' . (string)$row["status"] . '<br>';
         }
     } catch (PDOException $e) {
         // Handle connection or query error

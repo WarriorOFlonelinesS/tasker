@@ -1,5 +1,5 @@
 const handler = './handler.php';
-let tasksCache = []; 
+let tasksCache = [];
 
 async function apiRequest(url, method = 'GET', body = null) {
   try {
@@ -10,19 +10,25 @@ async function apiRequest(url, method = 'GET', body = null) {
       },
       body: body ? JSON.stringify(body) : null,
     });
+    console.log(body);
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text(); // Read the body as text for error logging
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
     }
-    return await response.json();
+
+    const responseData = await response.json(); // Parse the JSON once
+    return responseData;
   } catch (error) {
     console.error('API request error:', error);
     return null;
   }
 }
 
+
 async function getTasks() {
   const response = await apiRequest(handler);
+  console.log(response)
   tasksCache = response?.tasks || [];
   return tasksCache;
 }
@@ -32,14 +38,12 @@ async function saveTasks() {
   if (response?.status !== 'success') {
     console.error('Failed to save tasks:', response?.message || 'Unknown error');
   }
-
 }
 
 function addTask(task) {
   tasksCache.push(task);
   saveTasks();
   renderTasks();
-  
 }
 function updateTaskName(id, name) {
   const task = tasksCache.find((task) => task.id === id);
@@ -57,7 +61,6 @@ function toggleTaskStatus(id) {
     saveTasks();
     renderTasks();
   }
-
 }
 
 function removeTask(id) {
@@ -71,15 +74,17 @@ function createTaskElement(task) {
 
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
+  checkbox.setAttribute('name', 'status');
   checkbox.checked = task.status;
+  checkbox.value = false
   checkbox.addEventListener('change', () => {
     toggleTaskStatus(task.id);
   });
 
   const name = document.createElement('span');
+  name.setAttribute('name', 'name');
   name.innerText = task.name;
   name.addEventListener('click', () => {
-
     const newName = prompt('Update task name:', task.name);
     if (newName) {
       updateTaskName(task.id, newName);
@@ -119,12 +124,12 @@ function onAddTask(event) {
       status: false,
     });
     taskInput.value = '';
+    console.log(taskInput.status)
   }
-
 }
 
 async function init() {
-  await getTasks(); 
+  await getTasks();
   renderTasks();
 
   const taskForm = document.getElementById('add-task-form');

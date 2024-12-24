@@ -10,7 +10,6 @@ async function apiRequest(url, method = 'GET', body = null) {
       },
       body: body ? JSON.stringify(body) : null,
     });
-    console.log(body);
 
     if (!response.ok) {
       const errorText = await response.text(); // Read the body as text for error logging
@@ -28,7 +27,6 @@ async function apiRequest(url, method = 'GET', body = null) {
 
 async function getTasks() {
   const response = await apiRequest(handler);
-  console.log(response)
   tasksCache = response?.tasks || [];
   return tasksCache;
 }
@@ -63,11 +61,17 @@ function toggleTaskStatus(id) {
   }
 }
 
-function removeTask(id) {
+async function removeTask(id) {
+  const response = await apiRequest(handler, "DELETE", {id});
+  if (response?.status === 'error') {
+    console.error('Failed to save tasks:', response?.message || 'Unknown error');
+  }
+  console.log(response.message)
+
   tasksCache = tasksCache.filter((task) => task.id !== id);
-  saveTasks();
   renderTasks();
 }
+
 function createTaskElement(task) {
   const listItem = document.createElement('li');
   listItem.className = 'task-item';
@@ -124,7 +128,6 @@ function onAddTask(event) {
       status: false,
     });
     taskInput.value = '';
-    console.log(taskInput.status)
   }
 }
 
